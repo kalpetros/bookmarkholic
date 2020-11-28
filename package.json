@@ -1,6 +1,6 @@
 {
   "name": "bookmarkholic",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "Bookmark management chrome extension",
   "main": "babel.config.js",
   "scripts": {
