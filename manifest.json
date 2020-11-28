@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Bookmarkholic - Bookmark Manager",
+    "description": "Bookmark management",
+    "version": "0.1",
+    "author": "Petros Kalogiannakis",
+    "icons": {
+    },
+    "chrome_url_overrides": {
+      "bookmarks": "index.html"
+    },
+    "permissions": [
+      "topSites",
+      "bookmarks",
+      "history"
+    ]
+  }
+  
