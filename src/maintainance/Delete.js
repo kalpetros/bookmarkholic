@@ -69,7 +69,7 @@ export const Delete = () => {
     ) : null;
 
   return (
-    <div className="bg-white p-4 border rounded-xl">
+    <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
         <p className="text-xl">Delete all</p>
         {content}

@@ -71,7 +71,7 @@ export const AutoLabel = () => {
     ) : null;
 
   return (
-    <div className="bg-white p-4 border rounded-xl">
+    <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
         <p className="text-xl">Auto Label</p>
         {content}

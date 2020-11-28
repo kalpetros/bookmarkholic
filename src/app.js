@@ -74,10 +74,11 @@ const App = () => {
 
   const items = data.map((node) => {
     return node.children.map((child, index) => {
+      const dateAdded = new Date(child.dateAdded).toDateString();
       const className =
         view === 'list'
-          ? 'bg-white hover:bg-gray-200 p-4 cursor-pointer block border-b '
-          : 'bg-white hover:bg-gray-200 h-20 p-4 border rounded-xl cursor-pointer';
+          ? 'bg-dark-light mb-4 p-4  border rounded-xl cursor-pointer block'
+          : 'bg-dark-light h-auto p-4 border rounded-xl cursor-pointer';
 
       if (typeof child.url !== 'undefined') {
         return (
@@ -92,7 +93,8 @@ const App = () => {
                 src={`https://plus.google.com/_/favicon?domain_url=${child.url}`}
               />
             </div>
-            <div>{child.title}</div>
+            <div className="text-white text-base mb-4">{child.title}</div>
+            <div className="text-gray-500 text-xs">{dateAdded}</div>
           </a>
         );
       }
@@ -104,14 +106,15 @@ const App = () => {
           className={className}
           onClick={handleClick}
         >
-          <div className="mb-4">
+          <div className="text-gray-200 mb-4">
             <FontAwesomeIcon
               icon="folder"
               size="lg"
               className="mr-5 cursor-pointer"
             />
           </div>
-          <div>{child.title}</div>
+          <div className="text-white text-base mb-4">{child.title}</div>
+          <div className="text-gray-500 text-xs">{dateAdded}</div>
         </div>
       );
     });
@@ -122,7 +125,7 @@ const App = () => {
 
   return (
     <div>
-      <div className="bg-white sticky top-0 p-8 grid grid-cols-2">
+      <div className="bg-dark text-gray-400 sticky top-0 p-8 grid grid-cols-2">
         <div className="grid grid-flow-col auto-cols-min gap-8">
           <div>
             <FontAwesomeIcon

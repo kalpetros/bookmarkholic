@@ -68,7 +68,7 @@ export const Duplicates = () => {
     ) : null;
 
   return (
-    <div className="bg-white p-4 border rounded-xl">
+    <div className="bg-dark-light p-4 border rounded-xl shadow-xl">
       <div className="text-center">
         <p className="text-xl">Duplicates</p>
         {content}

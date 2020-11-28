@@ -68,7 +68,7 @@ export const Health = () => {
     ) : null;
 
   return (
-    <div className="bg-white p-4 border rounded-xl">
+    <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
         <p className="text-xl">Broken</p>
         {content}

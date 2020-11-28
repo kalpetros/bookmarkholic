@@ -16,7 +16,7 @@ export const Maintanance = () => {
 
   return (
     <div className="h-screen w-full fixed top-0 grid items-center justify-items-center">
-      <div className="bg-white shadow-lg rounded-xl">
+      <div className="bg-dark-light text-gray-400 shadow-lg rounded-xl border">
         <div className="grid grid-cols-2 p-4">
           <div className="font-semibold">Maintainance</div>
           <div className="text-right">

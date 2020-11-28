@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-dark {
+  background-color: #191919;
+}
+
+.bg-dark-light {
+  background-color: #252525;
+  border-color: #424242;
+}
+
+.bg-dark-light::hover {
+    border-color: #545454;
+}
