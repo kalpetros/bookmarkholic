@@ -97,9 +97,11 @@ const App = () => {
             target="__blank"
           >
             <div className="mb-4">
-              <img
-                src={`https://plus.google.com/_/favicon?domain_url=${child.url}`}
-              />
+              <div className="bg-dark rounded-full h-8 w-8 flex items-center justify-center">
+                <img
+                  src={`https://plus.google.com/_/favicon?domain_url=${child.url}`}
+                />
+              </div>
             </div>
             <div className="text-white text-base mb-4 truncate">
               {child.title}
@@ -117,11 +119,9 @@ const App = () => {
           onClick={handleClick}
         >
           <div className="text-gray-200 mb-4">
-            <FontAwesomeIcon
-              icon="folder"
-              size="lg"
-              className="mr-5 cursor-pointer"
-            />
+            <div className="bg-dark rounded-full h-8 w-8 flex items-center justify-center">
+              <FontAwesomeIcon icon="folder" size="lg" />
+            </div>
           </div>
           <div className="text-white text-base mb-4 truncate">
             {child.title}
@@ -149,9 +149,11 @@ const App = () => {
             target="__blank"
           >
             <div className="mb-4">
-              <img
-                src={`https://plus.google.com/_/favicon?domain_url=${bookmark.url}`}
-              />
+              <div className="bg-dark rounded-full h-8 w-8 flex items-center justify-center">
+                <img
+                  src={`https://plus.google.com/_/favicon?domain_url=${bookmark.url}`}
+                />
+              </div>
             </div>
             <div className="text-white text-base mb-4 truncate">
               {bookmark.title}
@@ -169,11 +171,9 @@ const App = () => {
           onClick={handleClick}
         >
           <div className="text-gray-200 mb-4">
-            <FontAwesomeIcon
-              icon="folder"
-              size="lg"
-              className="mr-5 cursor-pointer"
-            />
+            <div className="bg-dark rounded-full h-8 w-8 flex items-center justify-center">
+              <FontAwesomeIcon icon="folder" size="lg" />
+            </div>
           </div>
           <div className="text-white text-base mb-4 truncate">
             {bookmark.title}

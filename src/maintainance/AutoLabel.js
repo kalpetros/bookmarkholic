@@ -30,7 +30,7 @@ export const AutoLabel = () => {
         const url = bookmark.url;
         let label = url.match(/\b(?!https?|www)\w+\b/g);
         label = label[0].toUpperCase();
-        const title = `${label} - ${bookmark.url}`;
+        const title = `${label} - ${bookmark.title}`;
 
         chrome.bookmarks.update(bookmark.id, { title: title }, () => {});
 
