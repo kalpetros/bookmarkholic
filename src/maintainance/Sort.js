@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getBookmarkIds, getBookmarks, useDidMount } from '../utils';
 
-export const AutoGroup = () => {
+export const Sort = () => {
   const [status, setStatus] = useState('loading');
   const [bookmarks, setBookmarks] = useState([]);
 
@@ -24,24 +24,45 @@ export const AutoGroup = () => {
   };
 
   const handleClick = () => {
-    setStatus('labelling');
+    setStatus('sorting');
     setTimeout(() => {
-      let groups = [];
+      let groups = {};
 
       bookmarks.forEach((bookmark, index) => {
-        const url = bookmark.url;
-        let label = url.match(/\b(?!https?|www)\w+\b/g);
-        label = label[0].toLowerCase();
-        groups.push(label);
-
-        if (index === bookmarks.length - 1) {
-          setStatus('loaded');
+        if (groups.hasOwnProperty(bookmark.parentId)) {
+          const group = groups[bookmark.parentId];
+          group.push(bookmark);
+        } else {
+          groups[bookmark.parentId] = [bookmark];
         }
+
+        chrome.bookmarks.remove(bookmark.id, () => {});
       });
 
-      const unique = [...new Set(groups)];
-      unique.forEach((item) => {
-        chrome.bookmarks.create({ parentId: '1', title: item }, () => {});
+      Object.keys(groups).forEach((group, index) => {
+        const sortedGroup = groups[group].sort((a, b) => {
+          if (a.title < b.title) {
+            return -1;
+          }
+
+          if (a.title > b.title) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        sortedGroup.forEach((sg) => {
+          chrome.bookmarks.create({
+            parentId: group,
+            title: sg.title,
+            url: sg.url,
+          });
+        });
+
+        if (index === Object.keys(groups).length - 1) {
+          setStatus('loaded');
+        }
       });
     }, 1000);
   };
@@ -66,9 +87,9 @@ export const AutoGroup = () => {
       </div>
     ) : status === 'loaded' ? (
       <div className="mt-4">{button}</div>
-    ) : status === 'labelling' ? (
+    ) : status === 'sorting' ? (
       <>
-        <div className="mt-4">Creating groups</div>
+        <div className="mt-4">Sorting {bookmarks.length} bookmarks</div>
         <div className="mt-4">
           <FontAwesomeIcon icon="spinner" size="lg" spin />
         </div>
@@ -78,7 +99,7 @@ export const AutoGroup = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Auto Group</p>
+        <p className="text-xl">Sort</p>
         {content}
       </div>
     </div>

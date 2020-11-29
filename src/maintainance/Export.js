@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getBookmarkIds, getBookmarks, useDidMount } from '../utils';
 
-export const AutoGroup = () => {
+export const Export = () => {
   const [status, setStatus] = useState('loading');
   const [bookmarks, setBookmarks] = useState([]);
 
@@ -68,7 +68,7 @@ export const AutoGroup = () => {
       <div className="mt-4">{button}</div>
     ) : status === 'labelling' ? (
       <>
-        <div className="mt-4">Creating groups</div>
+        <div className="mt-4">Exporting {bookmarks.length} bookmarks</div>
         <div className="mt-4">
           <FontAwesomeIcon icon="spinner" size="lg" spin />
         </div>
@@ -78,7 +78,7 @@ export const AutoGroup = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Auto Group</p>
+        <p className="text-xl">Export</p>
         {content}
       </div>
     </div>

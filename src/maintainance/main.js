@@ -5,7 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Duplicates } from './Duplicates';
 import { Health } from './Health';
 import { Delete } from './Delete';
+import { Sort } from './Sort';
 import { Folders } from './Folders';
+import { Export } from './Export';
 import { AutoLabel } from './AutoLabel';
 import { AutoGroup } from './AutoGroup';
 
@@ -27,13 +29,15 @@ export const Maintanance = () => {
           />
         </div>
       </div>
-      <div className="grid gap-4 p-4 overflow-auto">
+      <div className="grid grid-cols-2 gap-4 p-4 overflow-auto">
         <Duplicates />
+        <Sort />
         <Folders />
         <Delete />
         <Health />
         <AutoLabel />
         <AutoGroup />
+        <Export />
       </div>
     </div>
   );
