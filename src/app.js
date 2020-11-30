@@ -52,7 +52,7 @@ const App = () => {
   return (
     <StoreProvider>
       <Maintainance active={activePanel} onClick={handleTriggerPanel} />
-      <Navbar />
+      <Navbar onTriggerPanel={handleTriggerPanel} />
       <Bookmarks />
     </StoreProvider>
   );

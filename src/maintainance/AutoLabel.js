@@ -30,18 +30,18 @@ export const AutoLabel = () => {
     bookmarks.length > 0 ? (
       <button
         type="button"
-        className="bg-gradient-to-r from-teal-400 to-blue-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
+        className="bg-gradient-to-r from-indigo-300 to-blue-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
         onClick={handleClick}
       >
         Start
       </button>
     ) : (
-      <p className="font-semibold">0 bookmarks</p>
+      <p className="font-semibold text-gray-400">0 bookmarks</p>
     );
 
   if (loading) {
     content = (
-      <div className="mt-4">
+      <div className="mt-4 text-gray-200">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
     );
@@ -49,8 +49,8 @@ export const AutoLabel = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4">Labelling {bookmarks.length} bookmarks</div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-400">Labelling {bookmarks.length} bookmarks</div>
+          <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>
         </>
@@ -63,7 +63,7 @@ export const AutoLabel = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Auto Label</p>
+        <p className="text-xl text-gray-200">Auto Label</p>
         {content}
       </div>
     </div>

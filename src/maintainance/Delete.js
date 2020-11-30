@@ -30,18 +30,18 @@ export const Delete = () => {
     bookmarks.length > 0 ? (
       <button
         type="button"
-        className="bg-gradient-to-r from-teal-400 to-red-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
+        className="bg-gradient-to-r from-indigo-300 to-red-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
         onClick={handleClick}
       >
         Delete {bookmarks.length} bookmarks
       </button>
     ) : (
-      <p className="font-semibold">0 bookmarks</p>
+      <p className="font-semibold text-gray-400">0 bookmarks</p>
     );
 
   if (loading) {
     content = (
-      <div className="mt-4">
+      <div className="mt-4 text-gray-200">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
     );
@@ -49,8 +49,8 @@ export const Delete = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4">Deleting {bookmarks.length} bookmarks</div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-400">Deleting {bookmarks.length} bookmarks</div>
+          <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>
         </>
@@ -63,7 +63,7 @@ export const Delete = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Delete all</p>
+        <p className="text-xl text-gray-200">Delete all</p>
         {content}
       </div>
     </div>

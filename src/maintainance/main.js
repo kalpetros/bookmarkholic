@@ -15,18 +15,18 @@ export const Maintainance = (props) => {
   const { active, onClick } = props;
   const node = document.getElementById('modal-container');
   const baseClassName =
-    'fixed top-0 bottom-0 bg-dark-light text-gray-400 shadow-lg rounded-xl border overflow-auto';
+    'fixed top-0 bottom-0 bg-dark-light shadow-lg rounded-xl border overflow-auto transition-right';
   let className = `${baseClassName} -right-full`;
 
   if (active) {
-    className = `${className} right-0`;
+    className = `${baseClassName} right-0`;
   }
 
   return ReactDOM.createPortal(
     <div className={className}>
       <div className="bg-dark sticky top-0 grid grid-cols-2 p-4">
-        <div className="font-semibold">Maintainance</div>
-        <div className="text-right">
+        <div className="font-semibold text-gray-200">Maintainance</div>
+        <div className="text-right text-gray-200">
           <FontAwesomeIcon
             icon="times"
             size="lg"

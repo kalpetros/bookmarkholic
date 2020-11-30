@@ -59,18 +59,18 @@ export const Folders = () => {
     folders.length > 0 ? (
       <button
         type="button"
-        className="bg-gradient-to-r from-teal-400 to-red-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
+        className="bg-gradient-to-r from-indigo-300 to-red-500 focus:from-pink-500 focus:to-red-500 text-white font-semibold px-6 py-3 rounded-md"
         onClick={handleClick}
       >
         Delete {folders.length} folders
       </button>
     ) : (
-      <p className="font-semibold">0 folders</p>
+      <p className="font-semibold text-gray-400">0 folders</p>
     );
 
   if (loading) {
     content = (
-      <div className="mt-4">
+      <div className="mt-4 text-gray-200">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
     );
@@ -78,8 +78,8 @@ export const Folders = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4">Deleting {folders.length} folders</div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-400">Deleting {folders.length} folders</div>
+          <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>
         </>
@@ -92,7 +92,7 @@ export const Folders = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Delete Folders</p>
+        <p className="text-xl text-gray-200">Delete Folders</p>
         {content}
       </div>
     </div>

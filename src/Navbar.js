@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { StoreContext } from './store';
 
-export const Navbar = () => {
+export const Navbar = (props) => {
   const view = 'grid';
+  const { onTriggerPanel } = props;
   const { data, handleSearch, handleBackClick } = useContext(StoreContext);
 
   let backButton = null;
@@ -23,12 +24,12 @@ export const Navbar = () => {
   }
 
   return (
-    <div className="bg-dark text-gray-400 sticky top-0 p-8 grid grid-cols-2">
+    <div className="bg-dark text-gray-200 sticky top-0 p-8 grid grid-cols-2">
       <div className="grid grid-flow-col auto-cols-min gap-8 items-center">
         {backButton}
         <div>
           <input
-            className="bg-dark-light text-gray-400 placeholder-gray-700 appearance-none border border-transparent w-56 py-2 px-4 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="bg-dark-light text-gray-200 placeholder-gray-400 appearance-none border border-transparent w-56 py-2 px-4 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder="Search bookmarks..."
             onChange={handleSearch}
           />
@@ -50,7 +51,12 @@ export const Navbar = () => {
           </div>
         </div>
         <div>
-          <FontAwesomeIcon icon="cog" size="lg" className="cursor-pointer" />
+          <FontAwesomeIcon
+            icon="cog"
+            size="lg"
+            className="cursor-pointer"
+            onClick={onTriggerPanel}
+          />
         </div>
       </div>
     </div>

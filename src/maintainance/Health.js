@@ -33,18 +33,18 @@ export const Health = () => {
     broken.length > 0 ? (
       <button
         type="button"
-        class="bg-gradient-to-r from-teal-400 to-blue-500 focus:from-pink-500 focus:to-orange-500 text-white font-semibold px-6 py-3 rounded-md"
+        class="bg-gradient-to-r from-indigo-300 to-blue-500 focus:from-pink-500 focus:to-orange-500 text-white font-semibold px-6 py-3 rounded-md"
         onClick={handleClick}
       >
         Remove {broken.length} broken bookmarks
       </button>
     ) : (
-      <p className="font-semibold">0 broken bookmarks</p>
+      <p className="font-semibold text-gray-400">0 broken bookmarks</p>
     );
 
   if (loading) {
     content = (
-      <div className="mt-4">
+      <div className="mt-4 text-gray-200">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
     );
@@ -52,8 +52,8 @@ export const Health = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4">Deleting {broken.length} broken bookmarks</div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-400">Deleting {broken.length} broken bookmarks</div>
+          <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>
         </>
@@ -66,7 +66,7 @@ export const Health = () => {
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
       <div className="text-center">
-        <p className="text-xl">Broken</p>
+        <p className="text-xl text-gray-200">Broken</p>
         {content}
       </div>
     </div>
