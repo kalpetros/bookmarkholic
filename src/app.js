@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -43,9 +43,15 @@ library.add(
 );
 
 const App = () => {
+  const [activePanel, setActivePanel] = useState(false);
+
+  const handleTriggerPanel = () => {
+    setActivePanel((a) => (a ? false : true));
+  };
+
   return (
     <StoreProvider>
-      <Maintainance />
+      <Maintainance active={activePanel} onClick={handleTriggerPanel} />
       <Navbar />
       <Bookmarks />
     </StoreProvider>
