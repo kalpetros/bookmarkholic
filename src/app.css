@@ -18,7 +18,3 @@
 .card {
   grid-template-rows: auto 1fr auto;
 }
-
-.test {
-  transition: right 1s ease;
-}
