@@ -1,35 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getBookmarks, getFolderIds, getFolders, useDidMount } from '../utils';
+import { getFolderIds, getFolders } from '../utils';
+import { StoreContext } from '../store';
 
 export const Folders = () => {
-  const [status, setStatus] = useState('loading');
+  const { loading, data, getData } = useContext(StoreContext);
+  const [active, setActive] = useState(false);
   const [folders, setFolders] = useState([]);
-
-  useDidMount(() => {
-    setStatus('loaded');
-  }, [folders]);
+  let content = null;
 
   useEffect(() => {
     setTimeout(() => {
-      getData();
-    }, 1000);
-  }, []);
-
-  const getData = () => {
-    chrome.bookmarks.getTree((response) => {
-      const folders = getFolders([], response);
+      const folders = getFolders([], data);
       setFolders(folders);
-    });
-  };
+    }, 1000);
+  }, [data]);
 
   const deleteFolders = () => {
     chrome.bookmarks.getTree((response) => {
       const folders = getFolderIds([], response);
       folders.forEach((folder, index) => {
         chrome.bookmarks.removeTree(folder, () => {});
+
         if (index === folders.length - 1) {
           getData();
+          setActive(false);
         }
       });
     });
@@ -54,7 +49,7 @@ export const Folders = () => {
   };
 
   const handleClick = () => {
-    setStatus('deleting');
+    setActive(true);
     setTimeout(() => {
       moveBookmarks();
     }, 1000);
@@ -73,21 +68,26 @@ export const Folders = () => {
       <p className="font-semibold">0 folders</p>
     );
 
-  const content =
-    status === 'loading' ? (
+  if (loading) {
+    content = (
       <div className="mt-4">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
-    ) : status === 'loaded' ? (
-      <div className="mt-4">{button}</div>
-    ) : status === 'deleting' ? (
-      <>
-        <div className="mt-4">Deleting {folders.length} folders</div>
-        <div className="mt-4">
-          <FontAwesomeIcon icon="spinner" size="lg" spin />
-        </div>
-      </>
-    ) : null;
+    );
+  } else {
+    if (active) {
+      content = (
+        <>
+          <div className="mt-4">Deleting {folders.length} folders</div>
+          <div className="mt-4">
+            <FontAwesomeIcon icon="spinner" size="lg" spin />
+          </div>
+        </>
+      );
+    } else {
+      content = <div className="mt-4">{button}</div>;
+    }
+  }
 
   return (
     <div className="bg-dark-light p-4 border rounded-xl">

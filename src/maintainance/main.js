@@ -11,12 +11,10 @@ import { Export } from './Export';
 import { AutoLabel } from './AutoLabel';
 import { AutoGroup } from './AutoGroup';
 
-export const Maintanance = () => {
-  const handleClose = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('modal-container'));
-  };
+export const Maintainance = () => {
+  const node = document.getElementById('modal-container');
 
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed top-0 bottom-0 right-0 bg-dark-light text-gray-400 shadow-lg rounded-xl border overflow-auto">
       <div className="bg-dark sticky top-0 grid grid-cols-2 p-4">
         <div className="font-semibold">Maintainance</div>
@@ -25,7 +23,7 @@ export const Maintanance = () => {
             icon="times"
             size="lg"
             className="cursor-pointer"
-            onClick={handleClose}
+            onClick=""
           />
         </div>
       </div>
@@ -39,6 +37,7 @@ export const Maintanance = () => {
         <AutoGroup />
         <Export />
       </div>
-    </div>
+    </div>,
+    node
   );
 };

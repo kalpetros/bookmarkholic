@@ -1,30 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getBookmarkIds, getBookmarks, useDidMount } from '../utils';
+import { StoreContext } from '../store';
 
 export const AutoLabel = () => {
-  const [status, setStatus] = useState('loading');
-  const [bookmarks, setBookmarks] = useState([]);
-
-  useDidMount(() => {
-    setStatus('loaded');
-  }, [bookmarks]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1000);
-  }, []);
-
-  const getData = () => {
-    chrome.bookmarks.getTree((response) => {
-      const bookmarks = getBookmarks([], response);
-      setBookmarks(bookmarks);
-    });
-  };
+  const { loading, bookmarks } = useContext(StoreContext);
+  const [active, setActive] = useState(false);
+  let content = null;
 
   const handleClick = () => {
-    setStatus('labelling');
+    setActive(true);
     setTimeout(() => {
       bookmarks.forEach((bookmark, index) => {
         const url = bookmark.url;
@@ -35,7 +19,8 @@ export const AutoLabel = () => {
         chrome.bookmarks.update(bookmark.id, { title: title }, () => {});
 
         if (index === bookmarks.length - 1) {
-          setStatus('loaded');
+          getData();
+          setActive(false);
         }
       });
     }, 1000);
@@ -54,21 +39,26 @@ export const AutoLabel = () => {
       <p className="font-semibold">0 bookmarks</p>
     );
 
-  const content =
-    status === 'loading' ? (
+  if (loading) {
+    content = (
       <div className="mt-4">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
-    ) : status === 'loaded' ? (
-      <div className="mt-4">{button}</div>
-    ) : status === 'labelling' ? (
-      <>
-        <div className="mt-4">Labelling {bookmarks.length} bookmarks</div>
-        <div className="mt-4">
-          <FontAwesomeIcon icon="spinner" size="lg" spin />
-        </div>
-      </>
-    ) : null;
+    );
+  } else {
+    if (active) {
+      content = (
+        <>
+          <div className="mt-4">Labelling {bookmarks.length} bookmarks</div>
+          <div className="mt-4">
+            <FontAwesomeIcon icon="spinner" size="lg" spin />
+          </div>
+        </>
+      );
+    } else {
+      content = <div className="mt-4">{button}</div>;
+    }
+  }
 
   return (
     <div className="bg-dark-light p-4 border rounded-xl">

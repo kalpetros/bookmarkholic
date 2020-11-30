@@ -1,71 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getBookmarks, findDuplicates, useDidMount } from '../utils';
+import { findDuplicates } from '../utils';
+import { StoreContext } from '../store';
 
 export const Duplicates = () => {
-  const [status, setStatus] = useState('loading');
-  const [bookmarks, setBookmarks] = useState([]);
-
-  useDidMount(() => {
-    setStatus('loaded');
-  }, [bookmarks]);
+  const { loading, bookmarks, getData } = useContext(StoreContext);
+  const [active, setActive] = useState(false);
+  const [duplicates, setDuplicates] = useState([]);
+  let content = null;
 
   useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1000);
-  }, []);
-
-  const getData = () => {
-    chrome.bookmarks.getTree((response) => {
-      const bookmarks = getBookmarks([], response);
-      const duplicates = findDuplicates(bookmarks);
-      setBookmarks(duplicates);
-    });
-  };
+    const duplicates = findDuplicates(bookmarks);
+    setDuplicates(duplicates);
+  }, [bookmarks]);
 
   const handleClick = () => {
-    setStatus('deleting');
+    setActive(true);
     setTimeout(() => {
-      bookmarks.forEach((bookmark, index) => {
+      duplicates.forEach((bookmark, index) => {
         chrome.bookmarks.remove(bookmark.id);
-        if (index === bookmarks.length - 1) {
+
+        if (index === duplicates.length - 1) {
           getData();
+          setActive(false);
         }
       });
-    }, 1000);
+    }, 2000);
   };
 
   const button =
-    bookmarks.length > 0 ? (
+    duplicates.length > 0 ? (
       <button
         type="button"
         className="bg-gradient-to-r from-teal-400 to-blue-500 focus:from-pink-500 focus:to-orange-500 text-white font-semibold px-6 py-3 rounded-md"
         onClick={handleClick}
       >
-        Remove {bookmarks.length} duplicates
+        Remove {duplicates.length} duplicates
       </button>
     ) : (
       <p className="font-semibold">0 duplicates</p>
     );
 
-  const content =
-    status === 'loading' ? (
+  if (loading) {
+    content = (
       <div className="mt-4">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
-    ) : status === 'loaded' ? (
-      <div className="mt-4">{button}</div>
-    ) : status === 'deleting' ? (
-      <>
-        <div className="mt-4">
-          Deleting {bookmarks.length} duplicate bookmarks
-        </div>
-        <div className="mt-4">
-          <FontAwesomeIcon icon="spinner" size="lg" spin />
-        </div>
-      </>
-    ) : null;
+    );
+  } else {
+    if (active) {
+      content = (
+        <>
+          <div className="mt-4">
+            Deleting {duplicates.length} duplicate bookmarks
+          </div>
+          <div className="mt-4">
+            <FontAwesomeIcon icon="spinner" size="lg" spin />
+          </div>
+        </>
+      );
+    } else {
+      content = <div className="mt-4">{button}</div>;
+    }
+  }
 
   return (
     <div className="bg-dark-light p-4 border rounded-xl shadow-xl">

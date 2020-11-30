@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getBookmarks, findBroken, useDidMount } from '../utils';
+import { findBroken } from '../utils';
+import { StoreContext } from '../store';
 
 export const Health = () => {
-  const [status, setStatus] = useState('loading');
+  const { loading, bookmarks } = useContext(StoreContext);
+  const [active, setActive] = useState(false);
   const [broken, setBroken] = useState([]);
-
-  useDidMount(() => {
-    setStatus('loaded');
-  }, [broken]);
+  let content = null;
 
   useEffect(() => {
     setTimeout(() => {
-      getBroken();
+      const broken = findBroken(bookmarks);
+      setBroken(broken);
     }, 1000);
   }, []);
 
-  const getBroken = () => {
-    chrome.bookmarks.getTree((response) => {
-      const bookmarks = getBookmarks([], response);
-      const broken = findBroken(bookmarks);
-      setBroken(broken);
-    });
-  };
-
   const handleClick = () => {
-    setStatus('deleting');
+    setActive(true);
     setTimeout(() => {
       broken.forEach((bookmark, index) => {
         chrome.bookmarks.remove(bookmark.id);
+
         if (index === broken.length - 1) {
-          getBroken();
+          setActive(false);
         }
       });
     }, 1000);
@@ -49,23 +42,26 @@ export const Health = () => {
       <p className="font-semibold">0 broken bookmarks</p>
     );
 
-  const content =
-    status === 'loading' ? (
+  if (loading) {
+    content = (
       <div className="mt-4">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
-    ) : status === 'loaded' ? (
-      <div className="mt-4">{button}</div>
-    ) : status === 'deleting' ? (
-      <>
-        <div className="mt-4">
-          Deleting {broken.length} broken bookmarks
-        </div>
-        <div className="mt-4">
-          <FontAwesomeIcon icon="spinner" size="lg" spin />
-        </div>
-      </>
-    ) : null;
+    );
+  } else {
+    if (active) {
+      content = (
+        <>
+          <div className="mt-4">Deleting {broken.length} broken bookmarks</div>
+          <div className="mt-4">
+            <FontAwesomeIcon icon="spinner" size="lg" spin />
+          </div>
+        </>
+      );
+    } else {
+      content = <div className="mt-4">{button}</div>;
+    }
+  }
 
   return (
     <div className="bg-dark-light p-4 border rounded-xl">

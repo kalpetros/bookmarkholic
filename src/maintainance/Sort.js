@@ -1,30 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getBookmarkIds, getBookmarks, useDidMount } from '../utils';
+import { StoreContext } from '../store';
 
 export const Sort = () => {
-  const [status, setStatus] = useState('loading');
-  const [bookmarks, setBookmarks] = useState([]);
-
-  useDidMount(() => {
-    setStatus('loaded');
-  }, [bookmarks]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      getData();
-    }, 1000);
-  }, []);
-
-  const getData = () => {
-    chrome.bookmarks.getTree((response) => {
-      const bookmarks = getBookmarks([], response);
-      setBookmarks(bookmarks);
-    });
-  };
+  const { loading, bookmarks, getData } = useContext(StoreContext);
+  const [active, setActive] = useState(false);
+  let content = null;
 
   const handleClick = () => {
-    setStatus('sorting');
+    setActive(true);
     setTimeout(() => {
       let groups = {};
 
@@ -61,7 +45,8 @@ export const Sort = () => {
         });
 
         if (index === Object.keys(groups).length - 1) {
-          setStatus('loaded');
+          getData();
+          setActive(false);
         }
       });
     }, 1000);
@@ -80,21 +65,26 @@ export const Sort = () => {
       <p className="font-semibold">0 bookmarks</p>
     );
 
-  const content =
-    status === 'loading' ? (
+  if (loading) {
+    content = (
       <div className="mt-4">
         <FontAwesomeIcon icon="spinner" size="lg" spin />
       </div>
-    ) : status === 'loaded' ? (
-      <div className="mt-4">{button}</div>
-    ) : status === 'sorting' ? (
-      <>
-        <div className="mt-4">Sorting {bookmarks.length} bookmarks</div>
-        <div className="mt-4">
-          <FontAwesomeIcon icon="spinner" size="lg" spin />
-        </div>
-      </>
-    ) : null;
+    );
+  } else {
+    if (active) {
+      content = (
+        <>
+          <div className="mt-4">Sorting {bookmarks.length} bookmarks</div>
+          <div className="mt-4">
+            <FontAwesomeIcon icon="spinner" size="lg" spin />
+          </div>
+        </>
+      );
+    } else {
+      content = <div className="mt-4">{button}</div>;
+    }
+  }
 
   return (
     <div className="bg-dark-light p-4 border rounded-xl">
