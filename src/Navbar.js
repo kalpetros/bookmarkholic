@@ -3,13 +3,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { StoreContext } from './store';
 
 export const Navbar = (props) => {
-  const view = 'grid';
   const { onTriggerPanel } = props;
-  const { data, handleSearch, handleBackClick } = useContext(StoreContext);
+  const { bookmarks, getData, setBookmarks } = useContext(StoreContext);
+
+  const handleBackClick = () => {
+    const parentId = bookmarks[0].parentId;
+    chrome.bookmarks.getSubTree(parentId, (response) => {
+      setBookmarks(response);
+    });
+  };
+
+  const handleSearch = (event) => {
+    const text = event.currentTarget.value;
+
+    if (text.length === 0) {
+      getData();
+    } else {
+      chrome.bookmarks.search(text, (response) => {
+        setBookmarks(response);
+      });
+    }
+  };
 
   let backButton = null;
-  if (data.length > 0) {
-    if (data[0].id > 0) {
+  if (bookmarks.length > 0) {
+    if (bookmarks[0].id > 0) {
       backButton = (
         <div>
           <FontAwesomeIcon

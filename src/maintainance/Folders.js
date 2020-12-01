@@ -10,10 +10,10 @@ export const Folders = () => {
   let content = null;
 
   useEffect(() => {
-    setTimeout(() => {
+    if (data.length > 0) {
       const folders = getFolders([], data);
       setFolders(folders);
-    }, 1000);
+    }
   }, [data]);
 
   const deleteFolders = () => {
@@ -78,7 +78,9 @@ export const Folders = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4 text-gray-400">Deleting {folders.length} folders</div>
+          <div className="mt-4 text-gray-400">
+            Deleting {folders.length} folders
+          </div>
           <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>

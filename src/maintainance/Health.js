@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { findBroken } from '../utils';
+import { findBroken, getBookmarks } from '../utils';
 import { StoreContext } from '../store';
 
 export const Health = () => {
-  const { loading, bookmarks } = useContext(StoreContext);
+  const { loading, data } = useContext(StoreContext);
+  const bookmarks = getBookmarks([], data);
   const [active, setActive] = useState(false);
   const [broken, setBroken] = useState([]);
   let content = null;
@@ -52,7 +53,9 @@ export const Health = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4 text-gray-400">Deleting {broken.length} broken bookmarks</div>
+          <div className="mt-4 text-gray-400">
+            Deleting {broken.length} broken bookmarks
+          </div>
           <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>

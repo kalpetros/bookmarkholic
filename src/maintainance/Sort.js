@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { StoreContext } from '../store';
+import { getBookmarks } from '../utils';
 
 export const Sort = () => {
-  const { loading, bookmarks, getData } = useContext(StoreContext);
+  const { loading, data, getData } = useContext(StoreContext);
+  const bookmarks = getBookmarks([], data);
   const [active, setActive] = useState(false);
   let content = null;
 
@@ -75,7 +77,9 @@ export const Sort = () => {
     if (active) {
       content = (
         <>
-          <div className="mt-4 text-gray-400">Sorting {bookmarks.length} bookmarks</div>
+          <div className="mt-4 text-gray-400">
+            Sorting {bookmarks.length} bookmarks
+          </div>
           <div className="mt-4 text-gray-200">
             <FontAwesomeIcon icon="spinner" size="lg" spin />
           </div>

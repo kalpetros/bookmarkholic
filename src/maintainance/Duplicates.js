@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { findDuplicates } from '../utils';
+import { findDuplicates, getBookmarks } from '../utils';
 import { StoreContext } from '../store';
 
 export const Duplicates = () => {
-  const { loading, bookmarks, getData } = useContext(StoreContext);
+  const { loading, data, getData } = useContext(StoreContext);
+  const bookmarks = getBookmarks([], data);
   const [active, setActive] = useState(false);
   const [duplicates, setDuplicates] = useState([]);
   let content = null;
@@ -12,7 +13,7 @@ export const Duplicates = () => {
   useEffect(() => {
     const duplicates = findDuplicates(bookmarks);
     setDuplicates(duplicates);
-  }, [bookmarks]);
+  }, [data]);
 
   const handleClick = () => {
     setActive(true);

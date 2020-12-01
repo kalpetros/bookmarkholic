@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { StoreContext } from '../store';
+import { getBookmarks } from '../utils';
 
 export const AutoGroup = () => {
-  const { loading, bookmarks } = useContext(StoreContext);
+  const { loading, data } = useContext(StoreContext);
+  const bookmarks = getBookmarks([], data);
   const [active, setActive] = useState(false);
   let content = null;
 
